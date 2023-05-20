@@ -1,0 +1,24 @@
+.app {
+  position: absolute;
+  right: 10%;
+  top: 20%;
+  width: 18.75rem;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+}
+.app__title {
+  font-size: 2rem;
+}
+.app__paragraph {
+  color: var(--gray-color);
+}
+.app__button {
+  width: 160px;
+  border-radius: 1.125rem;
+  padding: 16px;
+  font-weight: 700;
+  text-decoration: none;
+  color: var(--blue-color);
+  background-color: white;
+}
