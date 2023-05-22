@@ -1,0 +1,80 @@
+.table {
+  margin: auto;
+  width: 78% !important;
+}
+.table__form{
+  width: 70%;
+  margin: 2rem auto;
+  gap: 1rem;
+}
+.table__data{
+  text-align: center;
+  margin-top: 10rem;
+  color: var(--gray-color);
+}
+.table__form--input{
+  width: 70%;  
+  height: 2.5rem;
+  outline: none;
+  border: 1px var(--light-gray-color) solid;
+  border-radius: 12px;
+  padding: 0 10px;
+}
+.table__form--button{
+  width: 30%;
+  height: 2.5rem;
+  background-color: var(--transparent-blue-color);
+  color: var(--lighter-blue-color);
+  font-weight: 600;
+  outline: none;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+}
+.table__list {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+
+}
+
+.table__item {
+  flex: 1;
+  overflow:scroll;
+  height: 50px;
+}
+
+.table__item--entry {
+  font-weight: 600;
+  color: var(--blue-color);
+}
+
+.table__item--organism {
+  margin-right: 5px;
+  padding: 5px 10px;
+  background-color: var(--light-blue-color);
+  border-radius: 12px;
+}
+
+.table__item--location {
+  font-size: 14px;
+  text-align: center;
+}
+
+/* Hide the scrollbar */
+*::-webkit-scrollbar {
+  width: 0.8em;
+}
+
+*::-webkit-scrollbar-track {
+  background-color: #f1f1f100;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #88888800;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: #55555500;
+}
