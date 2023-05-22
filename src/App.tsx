@@ -5,6 +5,7 @@ import LoginPage from "./pages/LoginPage/LoginPage";
 import InitialPage from "./pages/InitialPage/InitialPage";
 import HomePage from "./pages/Homepage/HomePage";
 import Initial from "./components/InitialComponent/InitialComponent";
+import MyComponent from "./components/TableComponent/TableComponent";
 
 const router = createBrowserRouter([
   {
@@ -19,6 +20,7 @@ const router = createBrowserRouter([
   {
     path: "/home",
     element: <HomePage />,
+    children: [{ index: true, element: <MyComponent></MyComponent> }],
   },
 ]);
 

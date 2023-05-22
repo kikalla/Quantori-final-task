@@ -3,13 +3,13 @@ import React, { useEffect, useState } from "react";
 import { auth } from "../../firebase";
 import "./HomePage.css";
 import { useNavigate } from "react-router-dom";
+import { Outlet } from "react-router";
 
 const HomePage: React.FC = () => {
   const [authUser, setAuthUser] = useState<{ email: string | null } | null>(
     null
   );
   const navigate = useNavigate();
-  console.log("Home");
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -31,16 +31,19 @@ const HomePage: React.FC = () => {
   };
 
   return (
-    <div>
-      {authUser ? (
-        <>
-          <p>{`Signed In as ${authUser.email}`}</p>
-          <button onClick={userSignOut}>Sign Out</button>
-        </>
-      ) : (
-        <p>Signed Out</p>
-      )}
-    </div>
+    <>
+      <div className="header flex">
+        {authUser && (
+          <>
+            <p>{authUser.email}</p>
+            <button className="header__button" onClick={userSignOut}>
+              Log Out
+            </button>
+          </>
+        )}
+      </div>
+      <Outlet></Outlet>
+    </>
   );
 };
 
