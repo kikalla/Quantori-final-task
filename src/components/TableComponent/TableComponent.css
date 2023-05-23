@@ -1,27 +1,75 @@
 .table {
   margin: auto;
-  width: 78% !important;
+  width: 70% !important;
 }
-.table__form{
+.table__sort {
+  margin: 2rem auto;
+  width: 70%;
+  gap: 0.3rem;
+}
+
+.table__sort--wrapper {
+  width: 17%;
+  height: 40px;
+  justify-content: space-between;
+  padding: 10px 20px;
+  background-color: var(--wheat-color);
+  position: relative;
+  font-weight: 600;
+  font-size: 12px;
+}
+.table__sort--num {
+  width: 4%;
+  height: 40px;
+  padding: 10px 20px 10px 10px;
+  background-color: var(--wheat-color);
+  position: relative;
+  font-weight: 600;
+  font-size: 14px;
+  text-align: center;
+}
+
+.table__sort--num::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -8px;
+  height: 100%;
+  width: 18px;
+  background-color: var(--wheat-color);
+  border-radius: 12px;
+}
+.table__sort--wrapper:last-child::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: -8px;
+  height: 100%;
+  width: 18px;
+  background-color: var(--wheat-color);
+  border-radius: 12px;
+}
+
+.table__form {
   width: 70%;
   margin: 2rem auto;
   gap: 1rem;
 }
-.table__data{
+.table__data {
   text-align: center;
   margin-top: 10rem;
   color: var(--gray-color);
 }
-.table__form--input{
-  width: 70%;  
+.table__form--input {
+  width: 80%;
   height: 2.5rem;
   outline: none;
   border: 1px var(--light-gray-color) solid;
   border-radius: 12px;
   padding: 0 10px;
 }
-.table__form--button{
-  width: 30%;
+.table__form--button {
+  width: 20%;
   height: 2.5rem;
   background-color: var(--transparent-blue-color);
   color: var(--lighter-blue-color);
@@ -36,15 +84,19 @@
   align-items: center;
   justify-content: space-between;
   padding: 10px;
-
 }
-
+.table__loading {
+  margin: auto;
+  width: 50px;
+}
 .table__item {
   flex: 1;
-  overflow:scroll;
+  overflow: scroll;
   height: 50px;
 }
-
+.table__item--index {
+  width: 20px !important;
+}
 .table__item--entry {
   font-weight: 600;
   color: var(--blue-color);
@@ -60,6 +112,15 @@
 .table__item--location {
   font-size: 14px;
   text-align: center;
+}
+.sort__icon {
+  width: 24px;
+  height: 24px;
+  padding: 4px;
+  border-radius: 6px;
+}
+.active {
+  background-color: #3c86f41f;
 }
 
 /* Hide the scrollbar */
