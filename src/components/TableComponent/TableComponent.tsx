@@ -236,26 +236,30 @@ const TableComponent: React.FC = () => {
   };
 
   const sortHandler = (sortBy: string) => {
-    const directionMap: { [key: string]: string } = {
-      id: sortState.id,
-      accession: sortState.accession,
-      gene: sortState.gene,
-      organism_name: sortState.organism_name,
-      length: sortState.length,
-    };
+    if (data?.results?.length) {
+      console.log(data?.results?.length);
 
-    let direction = directionMap[sortBy];
+      const directionMap: { [key: string]: string } = {
+        id: sortState.id,
+        accession: sortState.accession,
+        gene: sortState.gene,
+        organism_name: sortState.organism_name,
+        length: sortState.length,
+      };
 
-    if (direction === "asc") {
-      direction = "desc";
-    } else if (direction === "desc") {
-      direction = "";
-    } else {
-      direction = "asc";
+      let direction = directionMap[sortBy];
+
+      if (direction === "asc") {
+        direction = "desc";
+      } else if (direction === "desc") {
+        direction = "";
+      } else {
+        direction = "asc";
+      }
+
+      dispatchSort({ type: sortBy.toUpperCase(), value: direction });
+      dispatchLink({ type: "SORT", value: sortBy, dir: direction });
     }
-
-    dispatchSort({ type: sortBy.toUpperCase(), value: direction });
-    dispatchLink({ type: "SORT", value: sortBy, dir: direction });
   };
 
   const rowRenderer: ListRowRenderer = ({ key, index, style }) => {

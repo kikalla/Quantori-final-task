@@ -98,17 +98,20 @@ const ProteinPublications: React.FC = () => {
             {pub.citation?.citationCrossReferences && (
               <div className="flex protein__publications--links">
                 <NavLink
+                  target="_blank"
                   className={"protein__publications--link flex"}
                   to={`https://pubmed.ncbi.nlm.nih.gov/${pub?.citation?.citationCrossReferences[0]?.id}/`}>
                   PubMed <LinkIcon />
                 </NavLink>
                 <NavLink
+                  target="_blank"
                   className={"protein__publications--link flex"}
                   to={`https://europepmc.org/article/MED/${pub?.citation?.citationCrossReferences[0]?.id}/`}>
                   Europe PMC <LinkIcon />
                 </NavLink>
                 {pub.citation?.citationCrossReferences[1]?.id ? (
                   <NavLink
+                    target="_blank"
                     className={"protein__publications--link flex"}
                     to={`https://dx.doi.org/${pub?.citation?.citationCrossReferences[1]?.id}`}>
                     {pub.citation.journal +
