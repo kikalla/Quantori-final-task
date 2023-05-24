@@ -5,7 +5,11 @@ import LoginPage from "./pages/LoginPage/LoginPage";
 import InitialPage from "./pages/InitialPage/InitialPage";
 import HomePage from "./pages/Homepage/HomePage";
 import Initial from "./components/InitialComponent/InitialComponent";
-import MyComponent from "./components/TableComponent/TableComponent";
+import TableComponent from "./components/TableComponent/TableComponent";
+import ProteinComponent from "./components/ProteinComponent/ProteinComponent";
+import ProteinDetails from "./components/ProteinComponent/ProteinDetails";
+import ProteinFeature from "./components/ProteinComponent/ProteinFeature";
+import ProteinPublications from "./components/ProteinComponent/ProteinPublications";
 
 const router = createBrowserRouter([
   {
@@ -20,7 +24,18 @@ const router = createBrowserRouter([
   {
     path: "/home",
     element: <HomePage />,
-    children: [{ index: true, element: <MyComponent></MyComponent> }],
+    children: [
+      { index: true, element: <TableComponent /> },
+      {
+        path: ":id",
+        element: <ProteinComponent />,
+        children: [
+          { path: "details", element: <ProteinDetails /> },
+          { path: "feature", element: <ProteinFeature /> },
+          { path: "publications", element: <ProteinPublications /> },
+        ],
+      },
+    ],
   },
 ]);
 

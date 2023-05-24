@@ -1,0 +1,65 @@
+.protein {
+  margin: 2rem auto;
+  width: 70%;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.protein__des--header {
+  gap: 1rem;
+}
+.protein__des--title {
+  font-size: 22px;
+}
+.protein__des--name {
+  background-color: var(--light-blue-color);
+  border-radius: 12px;
+  padding: 5px 10px;
+  color: var(--light-black-color);
+}
+
+.protein__des--body {
+  color: var(--light-black-color-color);
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.protein__des--protein {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+}
+.protein__des--gene {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+}
+.des__protein--title {
+  color: var(--gray-color);
+  font-weight: 600;
+}
+.des__gene--title {
+  color: var(--gray-color);
+  font-weight: 600;
+}
+.protein__options {
+  margin-top: 2rem;
+  gap: 30px;
+}
+.protein__option {
+  color: var(--light-gray-color);
+  font-weight: 600;
+  padding: 10px 22px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.table__gene {
+  margin-right: 0.2rem;
+}
+.active__link {
+  border-bottom: 2px var(--lighter-blue-color) solid;
+  color: var(--lighter-blue-color);
+}

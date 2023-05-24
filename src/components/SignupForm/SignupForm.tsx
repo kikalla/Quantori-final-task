@@ -9,6 +9,7 @@ const SignupForm = () => {
   const [password, setPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
   const [formIsValid, setFomrIsValid] = useState(true);
+  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
   const signUp = (e: FormEvent<HTMLFormElement>) => {
@@ -19,7 +20,8 @@ const SignupForm = () => {
           navigate("/login");
         })
         .catch((error) => {
-          console.log(error);
+          setErrorMessage(error.message);
+          setFomrIsValid(false);
         });
     } else {
       setFomrIsValid(false);
@@ -68,6 +70,7 @@ const SignupForm = () => {
             Signup failed! Please, check you passwords and email and try again
           </p>
         )}
+        {!formIsValid && <p className="form__error">{errorMessage}</p>}
         <button className="form__submit flex" type="submit">
           Sign Up
         </button>

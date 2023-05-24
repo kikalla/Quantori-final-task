@@ -1,7 +1,7 @@
 import React, { useEffect, useReducer, useState } from "react";
 import { List, ListRowRenderer } from "react-virtualized/dist/es/List";
 import "./TableComponent.css";
-import { Form } from "react-router-dom";
+import { Form, NavLink } from "react-router-dom";
 import SortHeader from "./SortHeader";
 
 interface DataResults {
@@ -25,7 +25,7 @@ interface Data {
   results?: DataResults[];
 }
 
-const MyComponent: React.FC = () => {
+const TableComponent: React.FC = () => {
   const [data, setData] = useState<Data>({});
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [initial, setInitial] = useState<boolean>(true);
@@ -236,26 +236,30 @@ const MyComponent: React.FC = () => {
   };
 
   const sortHandler = (sortBy: string) => {
-    const directionMap: { [key: string]: string } = {
-      id: sortState.id,
-      accession: sortState.accession,
-      gene: sortState.gene,
-      organism_name: sortState.organism_name,
-      length: sortState.length,
-    };
+    if (data?.results?.length) {
+      console.log(data?.results?.length);
 
-    let direction = directionMap[sortBy];
+      const directionMap: { [key: string]: string } = {
+        id: sortState.id,
+        accession: sortState.accession,
+        gene: sortState.gene,
+        organism_name: sortState.organism_name,
+        length: sortState.length,
+      };
 
-    if (direction === "asc") {
-      direction = "desc";
-    } else if (direction === "desc") {
-      direction = "";
-    } else {
-      direction = "asc";
+      let direction = directionMap[sortBy];
+
+      if (direction === "asc") {
+        direction = "desc";
+      } else if (direction === "desc") {
+        direction = "";
+      } else {
+        direction = "asc";
+      }
+
+      dispatchSort({ type: sortBy.toUpperCase(), value: direction });
+      dispatchLink({ type: "SORT", value: sortBy, dir: direction });
     }
-
-    dispatchSort({ type: sortBy.toUpperCase(), value: direction });
-    dispatchLink({ type: "SORT", value: sortBy, dir: direction });
   };
 
   const rowRenderer: ListRowRenderer = ({ key, index, style }) => {
@@ -263,9 +267,11 @@ const MyComponent: React.FC = () => {
     return (
       <div className="flex table__list" key={key} style={style}>
         <div className=" table__item--index flex">{index + 1}</div>
-        <div className="table__item table__item--entry flex">
+        <NavLink
+          className="table__item table__item--entry flex"
+          to={`${rowData?.primaryAccession}/details`}>
           {rowData?.primaryAccession}
-        </div>
+        </NavLink>
         <div className="table__item table__item--name flex">
           {rowData?.uniProtkbId}
         </div>
@@ -369,4 +375,4 @@ const MyComponent: React.FC = () => {
   );
 };
 
-export default MyComponent;
+export default TableComponent;

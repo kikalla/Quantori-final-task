@@ -64,7 +64,7 @@
   width: 80%;
   height: 2.5rem;
   outline: none;
-  border: 1px var(--light-gray-color) solid;
+  border: 1px var(--lighter-gray-color) solid;
   border-radius: 12px;
   padding: 0 10px;
 }
@@ -118,6 +118,7 @@
   height: 24px;
   padding: 4px;
   border-radius: 6px;
+  cursor: pointer;
 }
 .active {
   background-color: #3c86f41f;
