@@ -64,7 +64,7 @@
   width: 80%;
   height: 2.5rem;
   outline: none;
-  border: 1px var(--light-gray-color) solid;
+  border: 1px var(--lighter-gray-color) solid;
   border-radius: 12px;
   padding: 0 10px;
 }

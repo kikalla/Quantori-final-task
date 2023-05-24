@@ -1,0 +1,47 @@
+.protein__details {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2rem;
+  margin-top: 2rem;
+  width: 100%;
+}
+
+.protein__details--title {
+  font-size: 18px;
+  font-weight: 600;
+}
+.protein__details--body {
+  display: grid;
+  flex-wrap: wrap;
+  gap: 2rem;
+  grid-template-columns: repeat(2, 1fr);
+}
+.protein__details--wrapper {
+  flex-basis: 50%;
+  color: var(--light-black-color);
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+  width: 200px;
+}
+.protein__details--pharagraph {
+  font-weight: 600;
+  color: var(--gray-color);
+}
+.protein__details--code {
+  position: relative;
+  width: 100%;
+  background-color: var(--lighter-gray-color);
+  border-radius: 10px;
+  padding: 12px;
+  word-wrap: break-word;
+  font-size: 12px;
+}
+.ptorein__details--copy {
+  position: absolute;
+  top: -25px;
+  right: 15px;
+  font-weight: 600;
+  gap: 0.4rem;
+  cursor: pointer;
+}
