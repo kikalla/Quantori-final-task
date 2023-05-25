@@ -101,7 +101,27 @@
   font-weight: 600;
   color: var(--blue-color);
 }
-
+.table__filter {
+  background-color: var(--transparent-blue-color);
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  position: relative;
+}
+.table__filter--dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: var(--lighter-blue-color);
+  position: absolute;
+  top: -3px;
+  right: -3px;
+}
+.table__filter--clear {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--lighter-blue-color);
+}
 .table__item--organism {
   margin-right: 5px;
   padding: 5px 10px;
@@ -122,6 +142,9 @@
 }
 .active {
   background-color: #3c86f41f;
+}
+.active__filter {
+  background-color: var(--lighter-blue-color);
 }
 
 /* Hide the scrollbar */

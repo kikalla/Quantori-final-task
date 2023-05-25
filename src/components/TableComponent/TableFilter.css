@@ -1,0 +1,107 @@
+.filter__form {
+  flex-direction: column;
+  align-items: normal;
+  width: 335px;
+  height: 590px;
+  padding: 1rem;
+  border: 1px solid #d9d9d9;
+  background-color: white;
+  border-radius: 12px;
+  margin: auto;
+  gap: 1rem;
+  position: absolute;
+  top: 150px;
+  right: 145px;
+  z-index: 999;
+}
+.form__length--line {
+  border-bottom: 1px #9f9f9f solid;
+  width: 60px;
+  margin: 0 8px;
+}
+
+.filter__input,
+.filter__select {
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  width: 100%;
+  margin-bottom: 8px;
+  height: 50px;
+}
+
+.form__organism--label,
+.form__annotation--label,
+.form__protein--label,
+.form__length--label,
+.form__gene--label {
+  color: #2b2b2b;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.form__organism--select,
+.form__annotation--select,
+.form__protein--select,
+.filter__input {
+  height: 50px;
+
+  appearance: none;
+  background-color: #f5f5f5;
+  color: #6c6c6c;
+  border: none;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 14px;
+  width: 100%;
+  margin-top: 4px;
+  cursor: pointer;
+}
+
+.form__organism--select:focus,
+.form__annotation--select:focus,
+.form__protein--select:focus,
+.filter__input,
+.filter__select {
+  outline: none;
+}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}
+.form__protein {
+  margin-bottom: 20px;
+}
+.form__button {
+  width: 50%;
+  background: none;
+  color: inherit;
+  border: none;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+  height: 40px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 14px;
+}
+.filters__wrapper {
+  top: 0;
+  width: 100vw;
+  height: 120vh;
+  position: fixed;
+  background-color: transparent;
+  z-index: 100;
+}
+.form__button--cancel {
+  color: var(--lighter-blue-color);
+}
+.form__button--apply {
+  color: white;
+  background-color: var(--gray-color-2);
+}
+.active__button {
+  color: var(--lighter-blue-color);
+  background-color: var(--transparent-blue-color);
+}

@@ -3,6 +3,8 @@ import { List, ListRowRenderer } from "react-virtualized/dist/es/List";
 import "./TableComponent.css";
 import { Form, NavLink } from "react-router-dom";
 import SortHeader from "./SortHeader";
+import TableFilter from "./TableFilter";
+import FilterIcon from "../../assets/FilterIcon";
 
 interface DataResults {
   length?: number;
@@ -24,16 +26,47 @@ interface Comment {
 interface Data {
   results?: DataResults[];
 }
+interface Organism {
+  label: string;
+  value: number;
+}
+
+interface Annotation {
+  value: number;
+}
 
 const TableComponent: React.FC = () => {
   const [data, setData] = useState<Data>({});
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [initial, setInitial] = useState<boolean>(true);
+  const [organisms, setOrganisms] = useState<Organism[]>([]);
+  const [annotations, setAnnotations] = useState<Annotation[]>([]);
+  const [showFilters, setShowFilters] = useState(false);
 
   const searchHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const inputValue = (e.currentTarget[0] as HTMLInputElement).value;
     dispatchLink({ type: "SEARCH", value: inputValue });
+  };
+  const showFiltersToggle = () => {
+    setShowFilters((state) => {
+      return !state;
+    });
+  };
+  const clearHandler = () => {
+    dispatchLink({ type: "FILTERS-STRING", value: "" });
+    dispatchLink({
+      type: "FILTERS",
+      value: {
+        gene: "",
+        organism: "",
+        lengthFrom: "",
+        lengthTo: "",
+        annotation: "",
+        protein: "",
+      },
+    });
+    dispatchSort({ type: "RESET", value: "" });
   };
 
   const getLinkFromHeader = (headerLink: string): string => {
@@ -45,7 +78,7 @@ const TableComponent: React.FC = () => {
 
   interface LinkDispatch {
     type: string;
-    value: string;
+    value: any;
     dir?: string;
   }
 
@@ -60,6 +93,15 @@ const TableComponent: React.FC = () => {
     link: string;
     sort: string;
     scrollLink: string;
+    filtersString: string;
+    filtersObj: {
+      gene: string;
+      organism: string;
+      lengthFrom: string;
+      lengthTo: string;
+      annotation: string;
+      protein: string;
+    };
   }
 
   interface SortState {
@@ -72,16 +114,25 @@ const TableComponent: React.FC = () => {
 
   const linkReducer = (state: LinkState, action: LinkDispatch) => {
     const sortRegex = /&sort=[\w\s%]*?(asc|desc)/;
-    const searchRegex = /search\?&query=\((.*?)\)/;
+    const searchRegex = /&query=\([^)]*\)/;
 
     switch (action.type) {
       case "SEARCH":
         return {
           ...state,
+          filtersString: "",
+          filtersObj: {
+            gene: "",
+            organism: "",
+            lengthFrom: "",
+            lengthTo: "",
+            annotation: "",
+            protein: "",
+          },
           search: action.value,
           sort: "",
           link: state.link
-            .replace(searchRegex, `search?&query=(${action.value})`)
+            .replace(searchRegex, `&query=(${action.value})`)
             .replace(sortRegex, ``),
         };
       case "LINK":
@@ -93,6 +144,16 @@ const TableComponent: React.FC = () => {
         return {
           ...state,
           scrollLink: action.value,
+        };
+      case "FILTERS-STRING":
+        return {
+          ...state,
+          filtersString: action.value,
+        };
+      case "FILTERS":
+        return {
+          ...state,
+          filtersObj: action.value,
         };
       case "SORT":
         const includesSort = sortRegex.test(state.link);
@@ -165,25 +226,46 @@ const TableComponent: React.FC = () => {
           organism_name: "",
           length: action.value,
         };
+      case "RESET":
+        return {
+          accession: "",
+          id: "",
+          gene: "",
+          organism_name: "",
+          length: "",
+        };
       default:
         return state;
     }
   };
 
-  const [linkState, dispatchLink] = useReducer(linkReducer, {
+  const initialLinkState: LinkState = {
     search: "",
-    link: `https://rest.uniprot.org/uniprotkb/search?&query=()`,
+    link: `https://rest.uniprot.org/uniprotkb/search?facets=model_organism,proteins_with,annotation_score&query=()`,
     sort: "",
     scrollLink: "",
-  });
+    filtersString: "",
+    filtersObj: {
+      gene: "",
+      organism: "",
+      lengthFrom: "",
+      lengthTo: "",
+      annotation: "",
+      protein: "",
+    },
+  };
 
-  const [sortState, dispatchSort] = useReducer(SortReducer, {
+  const initialSortState: SortState = {
     accession: "",
     id: "",
     gene: "",
     organism_name: "",
     length: "",
-  });
+  };
+
+  const [linkState, dispatchLink] = useReducer(linkReducer, initialLinkState);
+
+  const [sortState, dispatchSort] = useReducer(SortReducer, initialSortState);
 
   const fetchData = (searchLink: string, isFirst: boolean) => {
     setIsLoading(true);
@@ -196,6 +278,15 @@ const TableComponent: React.FC = () => {
       })
       .then((responseData) => {
         const newResults = responseData.results;
+        const organismsResponse = responseData.facets.find(
+          (facet: any) => facet.label === "Popular organisms"
+        ).values;
+        const annotationsResponse = responseData.facets.find(
+          (facet: any) => facet.label === "Annotation score"
+        ).values;
+        setOrganisms(organismsResponse);
+        setAnnotations(annotationsResponse);
+
         if (isFirst) {
           setData({ results: [...newResults] });
         } else {
@@ -221,11 +312,17 @@ const TableComponent: React.FC = () => {
 
   useEffect(() => {
     if (!initial) {
-      fetchData(linkState.link, true);
+      fetchData(
+        linkState.link.replace(
+          /(&query=\([^)]*\))/,
+          `$1${linkState.filtersString}`
+        ),
+        true
+      );
     }
     setInitial(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [linkState.search, linkState.sort, sortState]);
+  }, [linkState.search, linkState.sort, sortState, linkState.filtersString]);
 
   const handleScroll = ({ scrollTop, clientHeight, scrollHeight }: any) => {
     const isNearBottom = scrollHeight - scrollTop <= clientHeight * 2;
@@ -236,9 +333,7 @@ const TableComponent: React.FC = () => {
   };
 
   const sortHandler = (sortBy: string) => {
-    if (data?.results?.length) {
-      console.log(data?.results?.length);
-
+    if (data?.results?.length && !isLoading) {
       const directionMap: { [key: string]: string } = {
         id: sortState.id,
         accession: sortState.accession,
@@ -315,7 +410,29 @@ const TableComponent: React.FC = () => {
           type="submit">
           search
         </button>
+        <div
+          className={`table__filter flex ${
+            showFilters ? "active__filter" : ""
+          }`}
+          onClick={linkState.search ? showFiltersToggle : undefined}>
+          {linkState.filtersString && (
+            <div className="table__filter--dot"></div>
+          )}
+          <FilterIcon isSelected={showFilters} />
+        </div>
+        <div className="table__filter--clear" onClick={clearHandler}>
+          Clear
+        </div>
       </Form>
+      {showFilters && (
+        <TableFilter
+          toggleFilter={showFiltersToggle}
+          dispatch={dispatchLink}
+          organisms={organisms}
+          annotations={annotations}
+          filtersValues={linkState.filtersObj}
+        />
+      )}
       <div className="table__sort flex">
         <div className="table__sort--num">#</div>
         <SortHeader
@@ -353,7 +470,6 @@ const TableComponent: React.FC = () => {
         />
       </div>
       {isLoading && <div className="table__loading">Loading</div>}
-
       {data?.results?.length === 0 || !data?.results?.length ? (
         <div className="table__data">
           <div>No data to display</div>
