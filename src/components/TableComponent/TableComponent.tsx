@@ -1,7 +1,7 @@
 import React, { useEffect, useReducer, useState } from "react";
 import { List, ListRowRenderer } from "react-virtualized/dist/es/List";
 import "./TableComponent.css";
-import { Form, NavLink } from "react-router-dom";
+import { Form, NavLink, useSearchParams } from "react-router-dom";
 import SortHeader from "./SortHeader";
 import TableFilter from "./TableFilter";
 import FilterIcon from "../../assets/FilterIcon";
@@ -42,6 +42,7 @@ const TableComponent: React.FC = () => {
   const [organisms, setOrganisms] = useState<Organism[]>([]);
   const [annotations, setAnnotations] = useState<Annotation[]>([]);
   const [showFilters, setShowFilters] = useState(false);
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const searchHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -240,8 +241,10 @@ const TableComponent: React.FC = () => {
   };
 
   const initialLinkState: LinkState = {
-    search: "",
-    link: `https://rest.uniprot.org/uniprotkb/search?facets=model_organism,proteins_with,annotation_score&query=()`,
+    search: searchParams.get("search") || "",
+    link: `https://rest.uniprot.org/uniprotkb/search?facets=model_organism,proteins_with,annotation_score&query=(${
+      searchParams.get("search") || ""
+    })`,
     sort: "",
     scrollLink: "",
     filtersString: "",
@@ -311,7 +314,7 @@ const TableComponent: React.FC = () => {
   };
 
   useEffect(() => {
-    if (!initial) {
+    if (!initial || linkState.search !== "") {
       fetchData(
         linkState.link.replace(
           /(&query=\([^)]*\))/,
@@ -323,6 +326,10 @@ const TableComponent: React.FC = () => {
     setInitial(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [linkState.search, linkState.sort, sortState, linkState.filtersString]);
+
+  useEffect(() => {
+    setSearchParams({ search: linkState.search });
+  }, [linkState.search, setSearchParams]);
 
   const handleScroll = ({ scrollTop, clientHeight, scrollHeight }: any) => {
     const isNearBottom = scrollHeight - scrollTop <= clientHeight * 2;
@@ -403,6 +410,7 @@ const TableComponent: React.FC = () => {
           className="table__form--input"
           disabled={isLoading}
           type="text"
+          defaultValue={linkState.search}
         />
         <button
           className="table__form--button"
