@@ -56,6 +56,7 @@ const TableComponent: React.FC = () => {
   };
   const clearHandler = () => {
     dispatchLink({ type: "FILTERS-STRING", value: "" });
+    dispatchLink({ type: "SORT", value: "" });
     dispatchLink({
       type: "FILTERS",
       value: {
@@ -158,7 +159,7 @@ const TableComponent: React.FC = () => {
         };
       case "SORT":
         const includesSort = sortRegex.test(state.link);
-        if (action.dir === "") {
+        if (action.dir === "" || action.value === "") {
           return {
             ...state,
             sort: action.value,
