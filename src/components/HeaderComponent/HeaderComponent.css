@@ -1,0 +1,15 @@
+.header {
+  justify-content: end;
+
+  padding: 30px 150px 20px 0;
+  border-bottom: 1px var(--light-blue-color) solid;
+}
+.header__button {
+  text-decoration: none;
+  border: none;
+  outline: none;
+  background-color: white;
+  color: var(--blue-color);
+  margin-left: 30px;
+  cursor: pointer;
+}
