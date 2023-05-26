@@ -10,10 +10,12 @@ import ProteinComponent from "./components/ProteinComponent/ProteinComponent";
 import ProteinDetails from "./components/ProteinComponent/ProteinDetails";
 import ProteinFeature from "./components/ProteinComponent/ProteinFeature";
 import ProteinPublications from "./components/ProteinComponent/ProteinPublications";
+import ErrorPage from "./pages/ErrorPage/ErrorPage";
 
 const router = createBrowserRouter([
   {
     path: "/",
+    errorElement: <ErrorPage />,
     element: <InitialPage />,
     children: [
       { index: true, element: <Initial /> },

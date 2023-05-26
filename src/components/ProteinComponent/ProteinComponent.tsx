@@ -1,22 +1,28 @@
 import { useEffect, useState } from "react";
-import { NavLink, Outlet, useParams } from "react-router-dom";
+import { NavLink, Outlet, useNavigate, useParams } from "react-router-dom";
 import "./ProteinComponent.css";
 import { Protein, Feature } from "../../models/Protein";
 
 const ProteinComponent: React.FC = () => {
   const [protein, setProtein] = useState<Protein>({});
   const { id } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetch(`https://rest.uniprot.org/uniprotkb/${id}`)
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok) {
+          navigate("/error");
+        }
+        return response.json();
+      })
       .then((data) => {
         setProtein(data);
       })
       .catch((error) => {
         console.log(error);
       });
-  }, [id]);
+  }, [id, navigate]);
   return (
     <div className="protein flex">
       <div className="protein__des--header flex">
