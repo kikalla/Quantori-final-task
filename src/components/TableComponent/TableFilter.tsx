@@ -164,7 +164,7 @@ const TableFilter: React.FC<Props> = (props) => {
             onChange={organismChangeHandler}
             className="form__organism--select">
             <option value="">Select an option</option>
-            {props.organisms.map((org) => {
+            {props?.organisms?.map((org) => {
               return (
                 <option key={org.value} value={org.value}>
                   {org.label}
@@ -205,7 +205,7 @@ const TableFilter: React.FC<Props> = (props) => {
             onChange={annotationChangeHandler}
             className="form__annotation--select">
             <option value="">Select an option</option>
-            {props.annotations.map((ann) => {
+            {props?.annotations?.map((ann) => {
               return (
                 <option key={ann.value} value={ann.value}>
                   {ann.value}

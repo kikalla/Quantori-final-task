@@ -86,8 +86,11 @@
   padding: 10px;
 }
 .table__loading {
-  margin: auto;
-  width: 50px;
+  margin: 2rem auto;
+  width: fit-content;
+  padding: 5px 10px;
+  background-color: var(--light-blue-color);
+  border-radius: 12px;
 }
 .table__item {
   flex: 1;
